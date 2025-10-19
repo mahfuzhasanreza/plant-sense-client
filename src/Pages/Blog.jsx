@@ -15,12 +15,13 @@ import {
   X,
   Play,
   Pause,
-  Volume2
+  Volume2,
+  Image
 } from 'lucide-react';
 
+// Import your local images
 import b1 from '../assets/b1.jpg';
 import b2 from '../assets/b2.jpg';
-
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,6 +30,11 @@ const Blog = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [speech, setSpeech] = useState(null);
+  const [imageErrors, setImageErrors] = useState(new Set());
+
+  const handleImageError = (postId) => {
+    setImageErrors(prev => new Set(prev).add(postId));
+  };
 
   const blogPosts = [
     {
@@ -61,7 +67,7 @@ const Blog = () => {
       readTime: "8 min read",
       category: "disease-prevention",
       tags: ["plant-care", "disease-prevention", "gardening-tips"],
-      image: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      image: b1, // Using local image
       featured: true
     },
     {
@@ -93,7 +99,7 @@ const Blog = () => {
       readTime: "6 min read",
       category: "technology",
       tags: ["ai", "technology", "innovation"],
-      image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      image: b2, // Using local image
       featured: true
     },
     {
@@ -124,7 +130,7 @@ const Blog = () => {
       readTime: "5 min read",
       category: "organic-gardening",
       tags: ["organic", "natural-remedies", "sustainable"],
-      image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      image: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
       featured: false
     },
     {
@@ -160,7 +166,7 @@ const Blog = () => {
       readTime: "7 min read",
       category: "seasonal-care",
       tags: ["seasonal-care", "maintenance", "gardening-calendar"],
-      image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      image: "https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
       featured: false
     },
     {
@@ -193,7 +199,7 @@ const Blog = () => {
       readTime: "4 min read",
       category: "plant-nutrition",
       tags: ["nutrients", "soil-health", "plant-care"],
-      image: "https://images.unsplash.com/photo-1597848212624-e5ebf38a8534?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      image: "https://images.unsplash.com/photo-1597848212624-e5ebf38a8534?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
       featured: false
     },
     {
@@ -224,7 +230,7 @@ const Blog = () => {
       readTime: "9 min read",
       category: "technology",
       tags: ["smart-farming", "ai", "future-tech"],
-      image: "https://images.unsplash.com/photo-1586771107445-d3ca888129ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+      image: "https://images.unsplash.com/photo-1586771107445-d3ca888129ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=500&q=80",
       featured: false
     }
   ];
@@ -264,7 +270,6 @@ const Blog = () => {
   const openModal = (post) => {
     setSelectedPost(post);
     setIsPlaying(false);
-    // Stop any ongoing speech when opening new modal
     if (speech) {
       speech.cancel();
       setSpeech(null);
@@ -274,7 +279,6 @@ const Blog = () => {
   const closeModal = () => {
     setSelectedPost(null);
     setIsPlaying(false);
-    // Stop speech when closing modal
     if (speech) {
       speech.cancel();
       setSpeech(null);
@@ -285,20 +289,16 @@ const Blog = () => {
     if (!selectedPost) return;
 
     if (isPlaying) {
-      // Pause speech
       if (speech) {
         speech.pause();
         setIsPlaying(false);
       }
     } else {
-      // Start or resume speech
       if (speech) {
         speech.resume();
       } else {
-        // Create new speech synthesis
         const utterance = new SpeechSynthesisUtterance();
         
-        // Extract text content from HTML (remove HTML tags)
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = selectedPost.content;
         const textContent = tempDiv.textContent || tempDiv.innerText || '';
@@ -334,7 +334,30 @@ const Blog = () => {
     });
   };
 
-  // Stop speech when component unmounts
+  // Fallback image component
+  const ImageWithFallback = ({ post, className }) => {
+    if (imageErrors.has(post.id)) {
+      return (
+        <div className={`${className} bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center`}>
+          <div className="text-center text-white">
+            <Image className="w-12 h-12 mx-auto mb-2 opacity-75" />
+            <span className="text-sm font-medium">{post.title}</span>
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <img 
+        src={post.image} 
+        alt={post.title}
+        className={className}
+        onError={() => handleImageError(post.id)}
+        loading="lazy"
+      />
+    );
+  };
+
   React.useEffect(() => {
     return () => {
       if (speech) {
@@ -361,7 +384,6 @@ const Blog = () => {
         {/* Search and Filter Section */}
         <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-200 mb-8">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            {/* Search Box */}
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
@@ -373,7 +395,6 @@ const Blog = () => {
               />
             </div>
 
-            {/* Category Filter */}
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <Filter className="w-5 h-5 text-gray-600" />
@@ -406,9 +427,8 @@ const Blog = () => {
               {featuredPosts.map((post) => (
                 <div key={post.id} className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
                   <div className="relative">
-                    <img 
-                      src={post.image} 
-                      alt={post.title}
+                    <ImageWithFallback 
+                      post={post}
                       className="w-full h-48 object-cover"
                     />
                     <div className="absolute top-4 left-4">
@@ -499,16 +519,14 @@ const Blog = () => {
                   className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 group"
                 >
                   <div className="relative overflow-hidden">
-                    <img 
-                      src={post.image} 
-                      alt={post.title}
+                    <ImageWithFallback 
+                      post={post}
                       className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
                   </div>
                   
                   <div className="p-6">
-                    {/* Category and Meta */}
                     <div className="flex items-center justify-between mb-3">
                       <span className="inline-flex items-center space-x-1 bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
                         <Tag className="w-3 h-3" />
@@ -523,17 +541,14 @@ const Blog = () => {
                       </div>
                     </div>
                     
-                    {/* Title */}
                     <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-green-600 transition-colors">
                       {post.title}
                     </h3>
                     
-                    {/* Excerpt */}
                     <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">
                       {post.excerpt}
                     </p>
                     
-                    {/* Author and Date */}
                     <div className="flex items-center space-x-3 text-sm text-gray-500 mb-4">
                       <div className="flex items-center space-x-1">
                         <User className="w-3 h-3" />
@@ -545,7 +560,6 @@ const Blog = () => {
                       </div>
                     </div>
                     
-                    {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-4">
                       {post.tags.slice(0, 2).map((tag, index) => (
                         <span 
@@ -562,7 +576,6 @@ const Blog = () => {
                       )}
                     </div>
                     
-                    {/* Actions */}
                     <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                       <div className="flex items-center space-x-4">
                         <button
@@ -630,28 +643,6 @@ const Blog = () => {
               <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
                 <h2 className="text-2xl font-bold text-gray-900">{selectedPost.title}</h2>
                 <div className="flex items-center space-x-4">
-                  {/* Voice Read Button */}
-                  {/* <button
-                    onClick={toggleSpeech}
-                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-semibold transition-colors ${
-                      isPlaying 
-                        ? 'bg-red-500 text-white hover:bg-red-600' 
-                        : 'bg-green-500 text-white hover:bg-green-600'
-                    }`}
-                  >
-                    {isPlaying ? (
-                      <>
-                        <Pause className="w-4 h-4" />
-                        <span>Pause</span>
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 className="w-4 h-4" />
-                        <span>Listen</span>
-                      </>
-                    )}
-                  </button> */}
-                  
                   <button
                     onClick={closeModal}
                     className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -664,9 +655,8 @@ const Blog = () => {
               <div className="p-6">
                 {/* Header Image */}
                 <div className="mb-6">
-                  <img 
-                    src={selectedPost.image} 
-                    alt={selectedPost.title}
+                  <ImageWithFallback 
+                    post={selectedPost}
                     className="w-full h-64 object-cover rounded-xl"
                   />
                 </div>

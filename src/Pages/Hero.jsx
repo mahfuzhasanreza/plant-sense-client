@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Play, Leaf, CheckCircle, Activity, ArrowRight } from 'lucide-react';
+import { Play, X, Leaf, CheckCircle, Activity, ArrowRight } from 'lucide-react';
+import { NavLink } from 'react-router-dom';
+
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeStatus, setActiveStatus] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
   const statusItems = [
     { icon: Activity, text: 'Real-time Detection', color: 'text-blue-500' },
@@ -21,7 +27,43 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-green-50 via-white to-emerald-50 overflow-hidden">
+      
+      {/* --- Modal --- */}
+      {isOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/70 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-2xl p-6 relative w-[90%] md:w-[700px]">
+            {/* Close Button */}
+            <button
+              onClick={closeModal}
+              className="absolute top-3 right-3 text-gray-500 hover:text-red-500 transition-colors"
+            >
+              <X size={24} />
+            </button>
+
+            {/* YouTube Video */}
+            <div className="aspect-video rounded-xl overflow-hidden">
+              <iframe
+                className="w-full h-full rounded-xl"
+                src="https://www.youtube.com/embed/EMUizAu0flA?si=6nxFZn-GLdaA8_35"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerPolicy="strict-origin-when-cross-origin"
+                allowFullScreen
+              ></iframe>
+            </div>
+
+            {/* Caption (Optional) */}
+            <h3 className="text-lg font-semibold text-gray-700 mt-4 text-center">
+              🌿 PlantSense Demo — Detect. Protect. Grow.
+            </h3>
+          </div>
+        </div>
+      )}
+      
       {/* Animated Background Elements */}
+      
+      
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-72 h-72 bg-green-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
         <div className="absolute top-40 right-10 w-72 h-72 bg-emerald-200 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
@@ -81,17 +123,25 @@ const Hero = () => {
               <button className="group relative px-8 py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-r from-emerald-600 to-green-500 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <span className="relative flex items-center justify-center space-x-2">
-                  <span>Get Started</span>
+                  <NavLink to="/dashboard">Get Started</NavLink>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </span>
               </button>
 
-              <button className="group px-8 py-4 bg-white text-gray-800 font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-gray-200 hover:border-green-400 hover:scale-105">
-                <span className="flex items-center justify-center space-x-2">
-                  <Play className="w-5 h-5 text-green-600 group-hover:scale-110 transition-transform" />
-                  <span>Watch Demo</span>
-                </span>
-              </button>
+        
+      {/* --- Button --- */}
+      <button
+        onClick={openModal}
+        className="group px-8 py-4 bg-white text-gray-800 font-bold rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border-2 border-gray-200 hover:border-green-400 hover:scale-105"
+      >
+        <span className="flex items-center justify-center space-x-2">
+          <Play className="w-5 h-5 text-green-600 group-hover:scale-110 transition-transform" />
+          <span>Watch Demo</span>
+        </span>
+      </button>
+
+      
+   
             </div>
 
             {/* Quick Stats */}
