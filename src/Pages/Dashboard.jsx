@@ -6,12 +6,10 @@ import {
   CheckCircle, 
   Clock, 
   TrendingUp, 
-  RefreshCw, 
   Calendar,
   Search,
   Filter,
-  ArrowUpDown,
-  Download
+  RotateCcw
 } from 'lucide-react';
 
 const Dashboard = () => {
@@ -21,6 +19,7 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('latest');
+  const [lastUpdated, setLastUpdated] = useState(null);
   const [stats, setStats] = useState({
     total: 0,
     healthy: 0,
@@ -29,7 +28,6 @@ const Dashboard = () => {
   });
 
   const fetchDiseases = async () => {
-    setLoading(true);
     setError(null);
     try {
       const response = await fetch('https://plant-disease-detection-server-one.vercel.app/diseases');
@@ -40,6 +38,7 @@ const Dashboard = () => {
         setDiseases(diseasesData);
         setFilteredDiseases(diseasesData);
         calculateStats(diseasesData);
+        setLastUpdated(new Date());
       } else {
         setError('Failed to fetch data');
       }
@@ -124,8 +123,16 @@ const Dashboard = () => {
     setFilteredDiseases(sorted);
   }, [sortBy]);
 
+  // Auto-refresh data periodically
   useEffect(() => {
+    // Initial fetch
     fetchDiseases();
+
+    // Set up interval for auto-refresh (every 30 seconds)
+    const intervalId = setInterval(fetchDiseases, 30000);
+
+    // Cleanup interval on component unmount
+    return () => clearInterval(intervalId);
   }, []);
 
   const formatDate = (dateString) => {
@@ -144,6 +151,16 @@ const Dashboard = () => {
       minute: '2-digit',
       hour12: true
     });
+  };
+
+  const formatLastUpdated = (date) => {
+    if (!date) return '';
+    return `Last updated: ${date.toLocaleTimeString('en-US', { 
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: true 
+    })}`;
   };
 
   const latestPlant = getLatestPlant();
@@ -210,16 +227,23 @@ const Dashboard = () => {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600"> Dashboard</span>
               </h1>
               <p className="text-gray-600">Monitor your plant disease detection history and analytics</p>
+              {lastUpdated && (
+                <p className="text-sm text-gray-500 mt-1 flex items-center space-x-1">
+                  <RotateCcw className="w-3 h-3" />
+                  <span>{formatLastUpdated(lastUpdated)}</span>
+                  <span className="text-xs text-green-600 ml-2">• Auto-updating</span>
+                </p>
+              )}
             </div>
-            
+{/*             
             <button
               onClick={fetchDiseases}
               disabled={loading}
               className="mt-4 md:mt-0 inline-flex items-center space-x-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-6 py-3 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              <RefreshCw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
-              <span>{loading ? 'Refreshing...' : 'Refresh Data'}</span>
-            </button>
+              <RotateCcw className={`w-5 h-5 ${loading ? 'animate-spin' : ''}`} />
+              <span>{loading ? 'Updating...' : 'Update Now'}</span>
+            </button> */}
           </div>
         </div>
 
@@ -249,6 +273,9 @@ const Dashboard = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-4 flex items-center space-x-2">
               <Calendar className="w-6 h-6 text-green-600" />
               <span>Latest Plant Scan</span>
+              <span className="text-sm text-green-600 bg-green-100 px-2 py-1 rounded-full ml-2">
+                New
+              </span>
             </h2>
             
             <div className="bg-gradient-to-r from-blue-500 to-purple-600 rounded-3xl p-6 shadow-2xl relative overflow-hidden">
@@ -373,7 +400,7 @@ const Dashboard = () => {
           
           {loading ? (
             <div className="bg-white rounded-2xl p-12 shadow-lg text-center">
-              <RefreshCw className="w-12 h-12 text-green-600 animate-spin mx-auto mb-4" />
+              <RotateCcw className="w-12 h-12 text-green-600 animate-spin mx-auto mb-4" />
               <p className="text-gray-600 text-lg">Loading detection history...</p>
             </div>
           ) : filteredDiseases.length === 0 ? (
