@@ -335,7 +335,18 @@ const Blog = () => {
   };
 
   // Fallback image component
-  const ImageWithFallback = ({ post, className }) => {
+  const ImageWithFallback = ({ post, className, showImage = true }) => {
+    if (!showImage) {
+      return (
+        <div className={`${className} bg-gradient-to-br from-green-50 to-emerald-100 flex items-center justify-center border-b border-gray-200`}>
+          <div className="text-center">
+            <BookOpen className="w-8 h-8 mx-auto mb-2 text-green-600 opacity-60" />
+            <span className="text-xs text-green-700 font-medium">Blog Article</span>
+          </div>
+        </div>
+      );
+    }
+
     if (imageErrors.has(post.id)) {
       return (
         <div className={`${className} bg-gradient-to-br from-green-400 to-emerald-600 flex items-center justify-center`}>
@@ -415,7 +426,7 @@ const Blog = () => {
           </div>
         </div>
 
-        {/* Featured Posts */}
+        {/* Featured Posts - WITH IMAGES */}
         {selectedCategory === 'all' && searchTerm === '' && (
           <section className="mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center space-x-2">
@@ -430,6 +441,7 @@ const Blog = () => {
                     <ImageWithFallback 
                       post={post}
                       className="w-full h-48 object-cover"
+                      showImage={true} // Show images for featured posts
                     />
                     <div className="absolute top-4 left-4">
                       <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
@@ -479,7 +491,7 @@ const Blog = () => {
           </section>
         )}
 
-        {/* All Posts */}
+        {/* All Posts - WITHOUT COVER IMAGES */}
         <section>
           <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center space-x-2">
             <span>
@@ -518,38 +530,27 @@ const Blog = () => {
                   key={post.id}
                   className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105 group"
                 >
-                  <div className="relative overflow-hidden">
-                    <ImageWithFallback 
-                      post={post}
-                      className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
-                    />
-                    <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300" />
-                  </div>
-                  
-                  <div className="p-6">
+                  {/* Header section without image - showing gradient with icon */}
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-100 border-b border-gray-200 p-6">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="inline-flex items-center space-x-1 bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+                      <span className="inline-flex items-center space-x-1 bg-white text-green-700 px-3 py-1 rounded-full text-sm font-medium shadow-sm">
                         <Tag className="w-3 h-3" />
                         <span>
                           {categories.find(cat => cat.id === post.category)?.name}
                         </span>
                       </span>
                       
-                      <div className="flex items-center space-x-1 text-sm text-gray-500">
+                      <div className="flex items-center space-x-1 text-sm text-green-600">
                         <Clock className="w-3 h-3" />
                         <span>{post.readTime}</span>
                       </div>
                     </div>
                     
-                    <h3 className="text-lg font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-green-600 transition-colors">
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2 group-hover:text-green-600 transition-colors">
                       {post.title}
                     </h3>
                     
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                    
-                    <div className="flex items-center space-x-3 text-sm text-gray-500 mb-4">
+                    <div className="flex items-center space-x-3 text-xs text-green-700">
                       <div className="flex items-center space-x-1">
                         <User className="w-3 h-3" />
                         <span>{post.author}</span>
@@ -559,9 +560,17 @@ const Blog = () => {
                         <span>{formatDate(post.date)}</span>
                       </div>
                     </div>
+                  </div>
+                  
+                  <div className="p-6">
+                    {/* Excerpt */}
+                    <p className="text-gray-600 text-sm mb-4 leading-relaxed line-clamp-3">
+                      {post.excerpt}
+                    </p>
                     
+                    {/* Tags */}
                     <div className="flex flex-wrap gap-2 mb-4">
-                      {post.tags.slice(0, 2).map((tag, index) => (
+                      {post.tags.slice(0, 3).map((tag, index) => (
                         <span 
                           key={index}
                           className="inline-block bg-gray-100 text-gray-600 px-2 py-1 rounded-md text-xs"
@@ -569,13 +578,14 @@ const Blog = () => {
                           #{tag}
                         </span>
                       ))}
-                      {post.tags.length > 2 && (
+                      {post.tags.length > 3 && (
                         <span className="inline-block text-gray-400 text-xs">
-                          +{post.tags.length - 2} more
+                          +{post.tags.length - 3} more
                         </span>
                       )}
                     </div>
                     
+                    {/* Actions */}
                     <div className="flex items-center justify-between pt-4 border-t border-gray-200">
                       <div className="flex items-center space-x-4">
                         <button
@@ -653,11 +663,12 @@ const Blog = () => {
               </div>
 
               <div className="p-6">
-                {/* Header Image */}
+                {/* Header Image - Still show in modal */}
                 <div className="mb-6">
                   <ImageWithFallback 
                     post={selectedPost}
                     className="w-full h-64 object-cover rounded-xl"
+                    showImage={true} // Show image in modal
                   />
                 </div>
 
