@@ -5,17 +5,15 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [
-    { name: 'Dashboard', href: '#dashboard' },
-    { name: 'History', href: '#history' },
-    { name: 'About', href: '#about' },
-    { name: 'Documentation', href: '#docs' }
+    { name: 'Home', href: '/' },
+    { name: 'Dashboard', href: '/dashboard' },
+    { name: 'History', href: '/history' },
   ];
 
   const resources = [
-    { name: 'API Reference', href: '#api' },
-    { name: 'Getting Started', href: '#start' },
-    { name: 'User Guide', href: '#guide' },
-    { name: 'FAQ', href: '#faq' }
+        { name: 'Blog', href: '/blog' },
+    { name: 'About', href: '/about' }
+
   ];
 
   const socialLinks = [
