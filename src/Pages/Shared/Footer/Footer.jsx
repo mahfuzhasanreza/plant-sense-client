@@ -106,11 +106,11 @@ const Footer = () => {
             </h3>
             <div className="space-y-4">
               <a
-                href="mailto:support@plantsense.com"
+                href="mailto:mreza221203@bscse.uiu.ac.bd"
                 className="flex items-center space-x-2 text-gray-600 hover:text-green-600 transition-colors duration-300 group text-sm"
               >
                 <Mail className="w-4 h-4 group-hover:scale-110 transition-transform" />
-                <span>support@plantsense.com</span>
+                <span>mreza221203@bscse.uiu.ac.bd</span>
               </a>
               
               {/* Social Links */}
@@ -138,9 +138,9 @@ const Footer = () => {
             </div>
             
             <div className="flex items-center space-x-1 text-gray-600 text-sm">
-              <span>Made with</span>
+              <span>Developed with</span>
               <Heart className="w-4 h-4 text-red-500 animate-pulse" />
-              <span>using ESP32, TensorFlow & React</span>
+              <span>Mahfuz Hasan Reza</span>
             </div>
 
             <div className="flex space-x-6 text-sm">
