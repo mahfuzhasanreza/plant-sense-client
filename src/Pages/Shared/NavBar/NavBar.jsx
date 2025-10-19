@@ -10,8 +10,8 @@ const Navbar = () => {
   const navItems = [
     { name: 'Home', icon: HomeIcon, href: '/' },
     { name: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
+      { name: 'History', icon: History, href: '/history' },
     { name: 'Blog', icon: Newspaper, href: '/blog' },
-    { name: 'History', icon: History, href: '/history' },
     { name: 'About', icon: Info, href: '/about' },
   ];
 
