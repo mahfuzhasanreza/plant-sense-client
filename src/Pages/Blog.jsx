@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Search, 
   Calendar, 
@@ -11,20 +11,51 @@ import {
   Heart,
   MessageCircle,
   Filter,
-  ChevronRight
+  ChevronRight,
+  X,
+  Play,
+  Pause,
+  Volume2
 } from 'lucide-react';
+
+import b1 from '../assets/b1.jpg';
+import b2 from '../assets/b2.jpg';
+
 
 const Blog = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [likedPosts, setLikedPosts] = useState(new Set());
+  const [selectedPost, setSelectedPost] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [speech, setSpeech] = useState(null);
 
   const blogPosts = [
     {
       id: 1,
       title: "Understanding Common Plant Diseases and Their Prevention",
       excerpt: "Learn about the most common plant diseases, their symptoms, and effective prevention strategies to keep your plants healthy and thriving.",
-      content: "Plant diseases can be caused by various pathogens including fungi, bacteria, and viruses. Early detection is crucial for effective treatment. This comprehensive guide covers common symptoms like leaf spots, wilting, and discoloration, along with proven prevention methods.",
+      content: `
+        <h2>Introduction to Plant Diseases</h2>
+        <p>Plant diseases can be caused by various pathogens including fungi, bacteria, and viruses. Early detection is crucial for effective treatment and prevention of widespread damage to your garden or crops.</p>
+        
+        <h3>Common Types of Plant Diseases</h3>
+        <p><strong>Fungal Diseases:</strong> These are among the most common plant diseases. They include powdery mildew, rust, and leaf spot diseases. Fungi thrive in moist conditions and can spread rapidly through spores.</p>
+        
+        <p><strong>Bacterial Diseases:</strong> Bacterial infections often cause wilting, leaf spots, and cankers. They can enter plants through wounds or natural openings and are difficult to control once established.</p>
+        
+        <p><strong>Viral Diseases:</strong> Viruses cause mosaic patterns, stunted growth, and leaf curling. They're typically spread by insects and can persist in plants for long periods.</p>
+        
+        <h3>Prevention Strategies</h3>
+        <p>1. <strong>Proper Watering:</strong> Water plants at the base to keep foliage dry and prevent fungal growth.</p>
+        <p>2. <strong>Good Air Circulation:</strong> Space plants properly to allow air to circulate freely.</p>
+        <p>3. <strong>Sanitation:</strong> Remove and destroy infected plant material promptly.</p>
+        <p>4. <strong>Soil Health:</strong> Maintain balanced soil pH and nutrient levels.</p>
+        <p>5. <strong>Resistant Varieties:</strong> Choose plant varieties known for disease resistance.</p>
+        
+        <h3>Early Detection Signs</h3>
+        <p>Look for these common symptoms: yellowing leaves, spots or lesions, wilting, stunted growth, and unusual patterns on leaves. Regular inspection is key to catching problems early.</p>
+      `,
       author: "Dr. Sarah Green",
       date: "2024-01-15",
       readTime: "8 min read",
@@ -37,7 +68,26 @@ const Blog = () => {
       id: 2,
       title: "The Science Behind Plant Disease Detection Technology",
       excerpt: "Discover how modern AI and machine learning are revolutionizing plant disease detection and helping farmers worldwide.",
-      content: "Advanced computer vision algorithms can now identify plant diseases with remarkable accuracy. This technology analyzes leaf patterns, color variations, and other visual cues to detect issues before they become visible to the naked eye.",
+      content: `
+        <h2>Revolutionizing Agriculture with AI</h2>
+        <p>Advanced computer vision algorithms can now identify plant diseases with remarkable accuracy. This technology analyzes leaf patterns, color variations, and other visual cues to detect issues before they become visible to the naked eye.</p>
+        
+        <h3>How AI Detection Works</h3>
+        <p>Our AI models are trained on millions of plant images showing various diseases and healthy conditions. The system uses convolutional neural networks (CNNs) to analyze new images and compare them against known patterns.</p>
+        
+        <p><strong>Image Processing:</strong> The system first processes the image to enhance relevant features and remove noise.</p>
+        <p><strong>Feature Extraction:</strong> Key characteristics like color distribution, texture patterns, and lesion shapes are identified.</p>
+        <p><strong>Classification:</strong> The extracted features are compared against our database to identify specific diseases.</p>
+        
+        <h3>Benefits of AI Detection</h3>
+        <p>1. <strong>Early Detection:</strong> Identify problems days or weeks before human observation</p>
+        <p>2. <strong>Accuracy:</strong> 95%+ accuracy in identifying common plant diseases</p>
+        <p>3. <strong>Speed:</strong> Get results in seconds instead of days</p>
+        <p>4. <strong>Accessibility:</strong> Available to anyone with a smartphone</p>
+        
+        <h3>Real-World Impact</h3>
+        <p>Farmers using our technology have reported up to 30% reduction in crop losses and 25% decrease in pesticide use through targeted treatment applications.</p>
+      `,
       author: "Prof. Michael Chen",
       date: "2024-01-12",
       readTime: "6 min read",
@@ -50,7 +100,25 @@ const Blog = () => {
       id: 3,
       title: "Organic Solutions for Common Plant Health Issues",
       excerpt: "Explore natural and organic methods to treat plant diseases without harmful chemicals.",
-      content: "Organic gardening focuses on using natural remedies to maintain plant health. From neem oil to companion planting, learn how to create a sustainable garden ecosystem that naturally resists diseases.",
+      content: `
+        <h2>Natural Plant Care Solutions</h2>
+        <p>Organic gardening focuses on using natural remedies to maintain plant health. From neem oil to companion planting, learn how to create a sustainable garden ecosystem that naturally resists diseases.</p>
+        
+        <h3>Effective Organic Treatments</h3>
+        <p><strong>Neem Oil:</strong> A powerful natural fungicide and insecticide that's safe for beneficial insects.</p>
+        <p><strong>Baking Soda Spray:</strong> Effective against powdery mildew and other fungal diseases.</p>
+        <p><strong>Garlic and Chili Sprays:</strong> Natural insect repellents that deter common pests.</p>
+        <p><strong>Compost Tea:</strong> Boosts plant immunity and improves soil health.</p>
+        
+        <h3>Companion Planting Strategies</h3>
+        <p>Certain plant combinations can naturally repel pests and prevent diseases:</p>
+        <p>• Marigolds with tomatoes to deter nematodes</p>
+        <p>• Basil with peppers to repel aphids</p>
+        <p>• Chives with roses to prevent black spot</p>
+        
+        <h3>Soil Health Management</h3>
+        <p>Healthy soil equals healthy plants. Focus on building soil organic matter, maintaining proper pH, and encouraging beneficial microorganisms.</p>
+      `,
       author: "Emma Rodriguez",
       date: "2024-01-10",
       readTime: "5 min read",
@@ -63,7 +131,30 @@ const Blog = () => {
       id: 4,
       title: "Seasonal Plant Care: What to Watch For Each Season",
       excerpt: "A comprehensive guide to seasonal plant care and the specific diseases that affect plants during different times of the year.",
-      content: "Each season brings unique challenges for plant health. Spring may bring fungal issues due to moisture, while summer heat can cause stress-related diseases. Learn how to anticipate and prevent seasonal plant problems.",
+      content: `
+        <h2>Seasonal Plant Health Guide</h2>
+        <p>Each season brings unique challenges for plant health. Spring may bring fungal issues due to moisture, while summer heat can cause stress-related diseases. Learn how to anticipate and prevent seasonal plant problems.</p>
+        
+        <h3>Spring Care (March-May)</h3>
+        <p><strong>Common Issues:</strong> Fungal diseases, damping off, root rot</p>
+        <p><strong>Prevention:</strong> Improve drainage, avoid overwatering, use fungicide treatments</p>
+        <p><strong>Tasks:</strong> Pruning, soil preparation, early pest monitoring</p>
+        
+        <h3>Summer Care (June-August)</h3>
+        <p><strong>Common Issues:</strong> Heat stress, powdery mildew, spider mites</p>
+        <p><strong>Prevention:</strong> Proper watering, shade protection, good air circulation</p>
+        <p><strong>Tasks:</strong> Regular watering, mulching, pest control</p>
+        
+        <h3>Fall Care (September-November)</h3>
+        <p><strong>Common Issues:</strong> Leaf spot diseases, preparation for winter</p>
+        <p><strong>Prevention:</strong> Clean up fallen leaves, apply fall fertilizers</p>
+        <p><strong>Tasks:</strong> Harvesting, bulb planting, winter preparation</p>
+        
+        <h3>Winter Care (December-February)</h3>
+        <p><strong>Common Issues:</strong> Frost damage, rodent problems, winter burn</p>
+        <p><strong>Prevention:</strong> Protective coverings, proper pruning timing</p>
+        <p><strong>Tasks:</strong> Planning, tool maintenance, indoor plant care</p>
+      `,
       author: "David Thompson",
       date: "2024-01-08",
       readTime: "7 min read",
@@ -76,7 +167,27 @@ const Blog = () => {
       id: 5,
       title: "How to Identify Nutrient Deficiencies in Plants",
       excerpt: "Learn to recognize the signs of nutrient deficiencies and how to properly address them for optimal plant health.",
-      content: "Nutrient deficiencies often mimic disease symptoms. Yellowing leaves, stunted growth, and poor flowering can indicate specific nutrient issues. This guide helps you identify and correct these problems effectively.",
+      content: `
+        <h2>Understanding Plant Nutrition</h2>
+        <p>Nutrient deficiencies often mimic disease symptoms. Yellowing leaves, stunted growth, and poor flowering can indicate specific nutrient issues. This guide helps you identify and correct these problems effectively.</p>
+        
+        <h3>Macronutrient Deficiencies</h3>
+        <p><strong>Nitrogen (N):</strong> Yellowing of older leaves, stunted growth</p>
+        <p><strong>Phosphorus (P):</strong> Purple or reddish leaves, poor root development</p>
+        <p><strong>Potassium (K):</strong> Brown leaf edges, weak stems</p>
+        
+        <h3>Micronutrient Deficiencies</h3>
+        <p><strong>Iron (Fe):</strong> Yellowing between leaf veins on new growth</p>
+        <p><strong>Magnesium (Mg):</strong> Yellow patches between leaf veins</p>
+        <p><strong>Calcium (Ca):</strong> Distorted new growth, blossom end rot</p>
+        
+        <h3>Soil Testing and Correction</h3>
+        <p>Regular soil testing is essential for identifying nutrient imbalances. Based on results:</p>
+        <p>• Adjust pH levels</p>
+        <p>• Apply specific fertilizers</p>
+        <p>• Use organic amendments like compost</p>
+        <p>• Consider foliar feeding for quick correction</p>
+      `,
       author: "Dr. Lisa Wang",
       date: "2024-01-05",
       readTime: "4 min read",
@@ -89,7 +200,25 @@ const Blog = () => {
       id: 6,
       title: "The Future of Smart Farming: AI in Agriculture",
       excerpt: "Exploring how artificial intelligence is transforming agriculture and plant disease management on a global scale.",
-      content: "Smart farming technologies are revolutionizing how we grow food. From drone monitoring to AI-powered disease detection, these innovations are making agriculture more efficient and sustainable.",
+      content: `
+        <h2>The AI Agriculture Revolution</h2>
+        <p>Smart farming technologies are revolutionizing how we grow food. From drone monitoring to AI-powered disease detection, these innovations are making agriculture more efficient and sustainable.</p>
+        
+        <h3>Key Technologies Transforming Farming</h3>
+        <p><strong>Precision Agriculture:</strong> Using GPS and sensors to apply water, fertilizers, and pesticides only where needed.</p>
+        <p><strong>Automated Monitoring:</strong> Drones and ground robots that continuously monitor crop health.</p>
+        <p><strong>Predictive Analytics:</strong> AI models that predict disease outbreaks and optimal planting times.</p>
+        <p><strong>Automated Harvesting:</strong> Robotics that can identify and harvest ripe produce.</p>
+        
+        <h3>Benefits for Farmers</h3>
+        <p>1. <strong>Increased Yields:</strong> Optimized growing conditions lead to better production</p>
+        <p>2. <strong>Reduced Costs:</strong> Precise application of inputs saves money</p>
+        <p>3. <strong>Labor Savings:</strong> Automation reduces manual work requirements</p>
+        <p>4. <strong>Sustainability:</strong> Reduced environmental impact through efficient resource use</p>
+        
+        <h3>Future Trends</h3>
+        <p>The integration of IoT devices, blockchain for supply chain transparency, and advanced machine learning models will continue to transform agriculture in the coming years.</p>
+      `,
       author: "Tech Agriculture Team",
       date: "2024-01-03",
       readTime: "9 min read",
@@ -132,6 +261,70 @@ const Blog = () => {
     setLikedPosts(newLikedPosts);
   };
 
+  const openModal = (post) => {
+    setSelectedPost(post);
+    setIsPlaying(false);
+    // Stop any ongoing speech when opening new modal
+    if (speech) {
+      speech.cancel();
+      setSpeech(null);
+    }
+  };
+
+  const closeModal = () => {
+    setSelectedPost(null);
+    setIsPlaying(false);
+    // Stop speech when closing modal
+    if (speech) {
+      speech.cancel();
+      setSpeech(null);
+    }
+  };
+
+  const toggleSpeech = () => {
+    if (!selectedPost) return;
+
+    if (isPlaying) {
+      // Pause speech
+      if (speech) {
+        speech.pause();
+        setIsPlaying(false);
+      }
+    } else {
+      // Start or resume speech
+      if (speech) {
+        speech.resume();
+      } else {
+        // Create new speech synthesis
+        const utterance = new SpeechSynthesisUtterance();
+        
+        // Extract text content from HTML (remove HTML tags)
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = selectedPost.content;
+        const textContent = tempDiv.textContent || tempDiv.innerText || '';
+        
+        utterance.text = `${selectedPost.title}. ${textContent}`;
+        utterance.rate = 0.9;
+        utterance.pitch = 1;
+        utterance.volume = 1;
+        
+        utterance.onend = () => {
+          setIsPlaying(false);
+          setSpeech(null);
+        };
+        
+        utterance.onerror = () => {
+          setIsPlaying(false);
+          setSpeech(null);
+        };
+        
+        window.speechSynthesis.speak(utterance);
+        setSpeech(utterance);
+      }
+      setIsPlaying(true);
+    }
+  };
+
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', { 
@@ -140,6 +333,15 @@ const Blog = () => {
       day: 'numeric'
     });
   };
+
+  // Stop speech when component unmounts
+  React.useEffect(() => {
+    return () => {
+      if (speech) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, [speech]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 via-green-50 to-gray-50 py-8">
@@ -242,7 +444,10 @@ const Blog = () => {
                         <span className="text-sm text-gray-600">{post.author}</span>
                       </div>
                       
-                      <button className="inline-flex items-center space-x-2 text-green-600 hover:text-green-700 font-semibold transition-colors">
+                      <button 
+                        onClick={() => openModal(post)}
+                        className="inline-flex items-center space-x-2 text-green-600 hover:text-green-700 font-semibold transition-colors"
+                      >
                         <span>Read More</span>
                         <ArrowRight className="w-4 h-4" />
                       </button>
@@ -378,7 +583,10 @@ const Blog = () => {
                         </button>
                       </div>
                       
-                      <button className="inline-flex items-center space-x-1 text-green-600 hover:text-green-700 font-semibold text-sm transition-colors">
+                      <button 
+                        onClick={() => openModal(post)}
+                        className="inline-flex items-center space-x-1 text-green-600 hover:text-green-700 font-semibold text-sm transition-colors"
+                      >
                         <span>Read</span>
                         <ChevronRight className="w-4 h-4" />
                       </button>
@@ -414,6 +622,125 @@ const Blog = () => {
             </p>
           </div>
         </section>
+
+        {/* Blog Post Modal */}
+        {selectedPost && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+            <div className="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              <div className="sticky top-0 bg-white border-b border-gray-200 p-6 flex items-center justify-between">
+                <h2 className="text-2xl font-bold text-gray-900">{selectedPost.title}</h2>
+                <div className="flex items-center space-x-4">
+                  {/* Voice Read Button */}
+                  {/* <button
+                    onClick={toggleSpeech}
+                    className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-semibold transition-colors ${
+                      isPlaying 
+                        ? 'bg-red-500 text-white hover:bg-red-600' 
+                        : 'bg-green-500 text-white hover:bg-green-600'
+                    }`}
+                  >
+                    {isPlaying ? (
+                      <>
+                        <Pause className="w-4 h-4" />
+                        <span>Pause</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 className="w-4 h-4" />
+                        <span>Listen</span>
+                      </>
+                    )}
+                  </button> */}
+                  
+                  <button
+                    onClick={closeModal}
+                    className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-6">
+                {/* Header Image */}
+                <div className="mb-6">
+                  <img 
+                    src={selectedPost.image} 
+                    alt={selectedPost.title}
+                    className="w-full h-64 object-cover rounded-xl"
+                  />
+                </div>
+
+                {/* Meta Information */}
+                <div className="flex flex-wrap items-center gap-4 mb-6 text-sm text-gray-600">
+                  <div className="flex items-center space-x-1">
+                    <User className="w-4 h-4" />
+                    <span>{selectedPost.author}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Calendar className="w-4 h-4" />
+                    <span>{formatDate(selectedPost.date)}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Clock className="w-4 h-4" />
+                    <span>{selectedPost.readTime}</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <Tag className="w-4 h-4" />
+                    <span>{categories.find(cat => cat.id === selectedPost.category)?.name}</span>
+                  </div>
+                </div>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {selectedPost.tags.map((tag, index) => (
+                    <span 
+                      key={index}
+                      className="inline-block bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium"
+                    >
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Blog Content */}
+                <div 
+                  className="prose prose-lg max-w-none prose-headings:text-gray-900 prose-p:text-gray-700 prose-strong:text-gray-900 prose-ul:text-gray-700 prose-li:text-gray-700"
+                  dangerouslySetInnerHTML={{ __html: selectedPost.content }}
+                />
+
+                {/* Actions Footer */}
+                <div className="flex items-center justify-between pt-6 mt-6 border-t border-gray-200">
+                  <div className="flex items-center space-x-4">
+                    <button
+                      onClick={() => toggleLike(selectedPost.id)}
+                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-colors ${
+                        likedPosts.has(selectedPost.id) 
+                          ? 'bg-red-50 text-red-600 border border-red-200' 
+                          : 'bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100'
+                      }`}
+                    >
+                      <Heart className={`w-4 h-4 ${likedPosts.has(selectedPost.id) ? 'fill-current' : ''}`} />
+                      <span>Like</span>
+                    </button>
+                    
+                    <button className="flex items-center space-x-2 px-4 py-2 rounded-lg bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100 transition-colors">
+                      <Share2 className="w-4 h-4" />
+                      <span>Share</span>
+                    </button>
+                  </div>
+                  
+                  <button
+                    onClick={closeModal}
+                    className="px-6 py-2 text-gray-600 hover:text-gray-700 font-semibold transition-colors"
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
