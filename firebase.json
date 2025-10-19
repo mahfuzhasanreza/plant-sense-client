@@ -1,5 +1,6 @@
 {
   "hosting": {
+    "site": "plant-sense",
     "public": "dist",
     "ignore": [
       "firebase.json",
