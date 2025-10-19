@@ -95,7 +95,7 @@ const HowItWorks = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-gray-50 to-white relative overflow-hidden">
+    <section className="py-20 bg-gradient-to-r from-blue-100 to-white relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-20 w-64 h-64 bg-green-500 rounded-full filter blur-3xl"></div>
