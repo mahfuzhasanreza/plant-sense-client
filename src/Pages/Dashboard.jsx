@@ -441,7 +441,7 @@ const Dashboard = () => {
                         ? 'bg-green-100 text-green-700' 
                         : 'bg-red-100 text-red-700'
                     }`}>
-                      {disease.confidence}%
+                      {disease.confidence}
                     </span>
                   </div>
 
