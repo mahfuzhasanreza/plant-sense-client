@@ -156,7 +156,7 @@ const History = () => {
     const csvData = filteredDiseases.map(disease => [
       disease.plantType,
       disease.diseaseType,
-      `${disease.confidence}%`,
+      `${disease.confidence}`,
       disease.treatment,
       formatDate(disease.createdAt),
       formatTime(disease.createdAt)

@@ -314,7 +314,7 @@ const Dashboard = () => {
                     
                     <div className="flex items-center space-x-4">
                       <div className="bg-white/10 backdrop-blur-sm px-4 py-2 rounded-xl border border-white/20">
-                        <p className="text-white text-sm">Confidence: <span className="font-bold">{latestPlant.confidence}%</span></p>
+                        <p className="text-white text-sm">Confidence: <span className="font-bold">{latestPlant.confidence}</span></p>
                       </div>
                       
                       <div className={`px-3 py-1 rounded-full text-sm font-bold ${
