@@ -544,7 +544,7 @@ const History = () => {
                       
                       <div>
                         <label className="text-sm font-medium text-gray-500">Confidence Level</label>
-                        <p className="text-lg font-semibold text-gray-900">{selectedPlant.confidence}%</p>
+                        <p className="text-lg font-semibold text-gray-900">{selectedPlant.confidence}</p>
                       </div>
                     </div>
                     
