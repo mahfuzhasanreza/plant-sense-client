@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "plant-sense",
+    "site": "plant-sense-now",
     "public": "dist",
     "ignore": [
       "firebase.json",
