@@ -1,12 +1,12 @@
 import React from 'react';
-import { 
-  Users, 
-  Target, 
-  Eye, 
-  Heart, 
-  Sprout, 
-  Award, 
-  Globe, 
+import {
+  Users,
+  Target,
+  Eye,
+  Heart,
+  Sprout,
+  Award,
+  Globe,
   Phone,
   Mail,
   MapPin,
@@ -55,7 +55,7 @@ const About = () => {
       image: mahfuzImg,
       specialties: ["React", "Node.js", "Real-time Systems"]
     },
- 
+
   ];
 
   const values = [
@@ -83,26 +83,38 @@ const About = () => {
 
   const milestones = [
     {
-      year: "2022",
-      title: "Company Founded",
-      description: "Plant Sense was born from a vision to revolutionize plant healthcare using AI technology."
+      year: "Aug 2025",
+      title: "Idea Generation",
+      description:
+        "PlantSense was conceived with the goal of revolutionizing plant healthcare using AI-powered technology to detect diseases early and ensure sustainable growth."
     },
     {
-      year: "2023",
-      title: "Beta Launch",
-      description: "Successfully launched our beta platform with 95% accurate disease detection."
+      year: "Aug 2025",
+      title: "Hardware Setup",
+      description:
+        "Integrated sensors, ESP32, ESP32-CAM, and Raspberry Pi modules to collect real-time plant data and leaf images for analysis."
     },
     {
-      year: "2024",
-      title: "Global Expansion",
-      description: "Expanded our services to farmers and gardeners across 50+ countries worldwide."
+      year: "Sep 2025",
+      title: "Model Training",
+      description:
+        "Trained the ResNet50-based deep learning model using TensorFlow and curated plant disease datasets to achieve high-accuracy classification."
     },
     {
-      year: "2024",
-      title: "Research Partnership",
-      description: "Partnered with leading agricultural universities for ongoing research and development."
+      year: "Sep 2025",
+      title: "Model Integration with Hardware",
+      description:
+        "Deployed the trained AI model on Raspberry Pi and ESP32 for real-time, on-device plant disease detection."
+    },
+    {
+      year: "Oct 2025",
+      title: "Software Implementation",
+      description:
+        "Developed a full-stack web application using React, Node.js, and MongoDB to visualize data, monitor plants, and notify users instantly."
     }
   ];
+
+
 
   const stats = [
     { number: "50K+", label: "Plants Analyzed" },
@@ -120,7 +132,7 @@ const About = () => {
             About <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600">Plant Sense</span>
           </h1>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            We're on a mission to revolutionize plant healthcare through artificial intelligence, 
+            We're on a mission to revolutionize plant healthcare through artificial intelligence,
             making advanced disease detection accessible to everyone from home gardeners to commercial farmers.
           </p>
         </div>
@@ -138,8 +150,8 @@ const About = () => {
                 Protecting Global Food Security Through Technology
               </h2>
               <p className="text-gray-600 text-lg leading-relaxed mb-6">
-                At Plant Sense, we combine cutting-edge artificial intelligence with deep agricultural 
-                expertise to create solutions that detect plant diseases early, accurately, and affordably. 
+                At Plant Sense, we combine cutting-edge artificial intelligence with deep agricultural
+                expertise to create solutions that detect plant diseases early, accurately, and affordably.
                 Our technology helps prevent crop loss, reduce pesticide use, and promote sustainable farming practices worldwide.
               </p>
               <div className="grid grid-cols-2 gap-4">
@@ -152,7 +164,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex-1">
-              <img 
+              <img
                 src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
                 alt="Plant research"
                 className="rounded-2xl shadow-lg"
@@ -169,7 +181,7 @@ const About = () => {
               The principles that guide everything we do at Plant Sense
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {values.map((value, index) => (
               <div key={index} className="bg-white rounded-2xl p-6 shadow-lg border-2 border-gray-200 hover:border-green-400 transition-all duration-300 hover:scale-105">
@@ -188,19 +200,18 @@ const About = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Our Journey</h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              From a simple idea to a global platform for plant health
+              From a simple idea to a dream platform for plant health
             </p>
           </div>
 
           <div className="relative">
             {/* Timeline line */}
             <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-green-200 h-full hidden lg:block"></div>
-            
+
             <div className="space-y-12">
               {milestones.map((milestone, index) => (
-                <div key={index} className={`flex flex-col lg:flex-row items-center ${
-                  index % 2 === 0 ? 'lg:flex-row-reverse' : ''
-                }`}>
+                <div key={index} className={`flex flex-col lg:flex-row items-center ${index % 2 === 0 ? 'lg:flex-row-reverse' : ''
+                  }`}>
                   <div className="lg:w-1/2 lg:px-8 mb-4 lg:mb-0">
                     <div className="bg-white rounded-2xl p-6 shadow-lg border-2 border-green-200 hover:shadow-xl transition-all duration-300">
                       <div className="inline-flex items-center space-x-2 bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-semibold mb-3">
@@ -211,11 +222,11 @@ const About = () => {
                       <p className="text-gray-600">{milestone.description}</p>
                     </div>
                   </div>
-                  
+
                   <div className="lg:w-1/2 flex justify-center lg:justify-center">
                     <div className="w-4 h-4 bg-green-500 rounded-full border-4 border-white shadow-lg z-10"></div>
                   </div>
-                  
+
                   <div className="lg:w-1/2 lg:px-8">
                     {/* Empty space for alignment */}
                   </div>
@@ -226,14 +237,14 @@ const About = () => {
         </section>
 
         {/* Team Section */}
-        <section className="mb-16">
+        {/* <section className="mb-16">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-gray-900 mb-4 flex items-center justify-center space-x-2">
               <Users className="w-8 h-8 text-green-600" />
               <span>Meet Our Team</span>
             </h2>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Passionate experts in agriculture, technology, and sustainability working together 
+              Passionate experts in agriculture, technology, and sustainability working together
               to create a healthier planet.
             </p>
           </div>
@@ -242,24 +253,24 @@ const About = () => {
             {teamMembers.map((member) => (
               <div key={member.id} className="bg-white rounded-2xl shadow-lg border-2 border-gray-200 overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
                 <div className="relative">
-                  <img 
-                    src={member.image} 
+                  <img
+                    src={member.image}
                     alt={member.name}
                     className="w-full h-48 object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
                 </div>
-                
+
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
                   <p className="text-green-600 font-semibold mb-3">{member.role}</p>
                   <p className="text-gray-600 text-sm mb-4 leading-relaxed">{member.bio}</p>
-                  
+
                   <div className="space-y-2">
                     <h4 className="text-sm font-semibold text-gray-900">Specialties:</h4>
                     <div className="flex flex-wrap gap-2">
                       {member.specialties.map((specialty, index) => (
-                        <span 
+                        <span
                           key={index}
                           className="inline-block bg-gray-100 text-gray-700 px-2 py-1 rounded-md text-xs"
                         >
@@ -268,7 +279,7 @@ const About = () => {
                       ))}
                     </div>
                   </div>
-                  
+
                   <div className="flex space-x-3 mt-4 pt-4 border-t border-gray-200">
                     <button className="text-gray-400 hover:text-blue-600 transition-colors">
                       <Linkedin className="w-4 h-4" />
@@ -284,7 +295,7 @@ const About = () => {
               </div>
             ))}
           </div>
-        </section>
+        </section> */}
 
         {/* Technology Section */}
         <section className="bg-gradient-to-r from-green-500 to-emerald-600 rounded-3xl p-8 text-white mb-16">
@@ -296,8 +307,8 @@ const About = () => {
               </div>
               <h2 className="text-3xl font-bold mb-4">Powered by Advanced AI</h2>
               <p className="text-green-100 text-lg leading-relaxed mb-6">
-                Our proprietary algorithms analyze plant images with 95% accuracy, 
-                identifying diseases at their earliest stages. Built on years of 
+                Our proprietary algorithms analyze plant images with 95% accuracy,
+                identifying diseases at their earliest stages. Built on years of
                 agricultural research and millions of data points.
               </p>
               <div className="grid grid-cols-2 gap-4">
@@ -312,7 +323,7 @@ const About = () => {
               </div>
             </div>
             <div className="flex-1">
-              <img 
+              <img
                 src="https://images.unsplash.com/photo-1555255707-c07966088b7b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80"
                 alt="AI Technology"
                 className="rounded-2xl shadow-2xl"
@@ -338,7 +349,7 @@ const About = () => {
               <h3 className="font-semibold text-gray-900 mb-1">Email</h3>
               <p className="text-gray-600">mreza221203@bscse.uiu.ac.bd</p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-green-50 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <Phone className="w-6 h-6 text-green-600" />
@@ -346,7 +357,7 @@ const About = () => {
               <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
               <p className="text-gray-600">+8801770-452285</p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-green-50 w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-3">
                 <MapPin className="w-6 h-6 text-green-600" />

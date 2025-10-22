@@ -1,5 +1,5 @@
 import React from 'react';
-import { Leaf, Github, Linkedin, Mail, Heart, ExternalLink, Facebook, Twitter } from 'lucide-react';
+import { Leaf, Github, Linkedin, Mail, Heart, ExternalLink, Facebook, Twitter, Youtube } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -17,10 +17,10 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Github, href: '#', label: 'GitHub', color: 'hover:text-gray-900' },
-    { icon: Linkedin, href: '#', label: 'LinkedIn', color: 'hover:text-blue-600' },
-    { icon: Twitter, href: '#', label: 'Twitter', color: 'hover:text-blue-400' },
-    { icon: Facebook, href: '#', label: 'Facebook', color: 'hover:text-blue-700' }
+    { icon: Facebook, href: 'https://www.facebook.com/mahfuzhasanreza', label: 'Facebook', color: 'hover:text-blue-700' },
+    { icon: Linkedin, href: 'https://www.linkedin.com/in/mahfuzhasanreza', label: 'LinkedIn', color: 'hover:text-blue-600' },
+    { icon: Github, href: 'https://github.com/mahfuzhasanreza', label: 'GitHub', color: 'hover:text-gray-900' },
+    { icon: Youtube, href: 'https://www.youtube.com/@learn-with-mahfuz', label: 'YouTube', color: 'hover:text-red-500' },
   ];
 
   return (
